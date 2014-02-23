@@ -67,17 +67,18 @@ class AdExModel(ExplorableModel):
     explorer_type = 'adex'
     plot_styles = ['standard']
     param_specs = [
+        'Time constants',
         Parameter('taum', 1*ms, 0.1*ms, 100*ms, 1*ms, unit=ms),
         Parameter('tauw', 10*ms, 0.1*ms, 100*ms, 1*ms, unit=ms),
-
+        'Adaptation',
         Parameter('a', 1.0, 0.0, 100.0, 0.1),
         Parameter('b', 20*mV, 0*mV, 1000*mV, 10*mV, unit=mV),
-
+        'Electrical',
         Parameter('EL', -70*mV, -100*mV, 0*mV, 5*mV, unit=mV),
         Parameter('VT', -50*mV, -100*mV, 0*mV, 5*mV, unit=mV),
         Parameter('Vr', -70*mV, -100*mV, 0*mV, 5*mV, unit=mV),
         Parameter('DeltaT', 0*mV, 0*mV, 10*mV, 0.5*mV, unit=mV),
-
+        'Simulation',
         Parameter('duration', 500*ms, 0*ms, 10*second, 100*ms, unit=ms),
         Parameter('silent', 100*ms, 0*ms, 10*second, 100*ms, unit=ms),
         Parameter('Imin', 0*mV, 0*mV, 1000*mV, 10*mV, unit=mV),

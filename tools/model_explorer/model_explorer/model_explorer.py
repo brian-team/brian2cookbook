@@ -140,29 +140,32 @@ class ModelExplorer(QtGui.QMainWindow):
         self.param_units = {}
         self.default_values = {}
         for spec in self.model.param_specs:
-            self.cur_params[spec.name] = spec.start
-            self.default_values[spec.name] = spec.start
-            if spec.dtype==int:
-                spinbox = QtGui.QSpinBox(self)
-                signal = 'valueChanged(int)'
+            if isinstance(spec, Parameter):
+                self.cur_params[spec.name] = spec.start
+                self.default_values[spec.name] = spec.start
+                if spec.dtype==int:
+                    spinbox = QtGui.QSpinBox(self)
+                    signal = 'valueChanged(int)'
+                else:
+                    spinbox = QtGui.QDoubleSpinBox(self)
+                    unit = spec.unit
+                    if not have_same_dimensions(unit, 1):
+                        spinbox.setSuffix(' '+str(unit))
+                    spinbox.setDecimals(6)
+                    signal = 'valueChanged(double)'
+                spinbox.setPrefix(spec.name+': ')
+                spinbox.setMinimum(spec.min/spec.unit)
+                spinbox.setMaximum(spec.max/spec.unit)
+                spinbox.setValue(spec.start/spec.unit)
+                spinbox.setSingleStep(spec.step/spec.unit)
+                changer = SpinboxChanger(self, spec.name)
+                self.spinbox_changers.append(changer)
+                self.spinboxes[spec.name] = spinbox
+                QtCore.QObject.connect(spinbox, QtCore.SIGNAL(signal), changer)
+                pc.addWidget(spinbox)
+                self.param_units[spec.name] = spec.unit
             else:
-                spinbox = QtGui.QDoubleSpinBox(self)
-                unit = spec.unit
-                if not have_same_dimensions(unit, 1):
-                    spinbox.setSuffix(' '+str(unit))
-                spinbox.setDecimals(6)
-                signal = 'valueChanged(double)'
-            spinbox.setPrefix(spec.name+': ')
-            spinbox.setMinimum(spec.min/spec.unit)
-            spinbox.setMaximum(spec.max/spec.unit)
-            spinbox.setValue(spec.start/spec.unit)
-            spinbox.setSingleStep(spec.step/spec.unit)
-            changer = SpinboxChanger(self, spec.name)
-            self.spinbox_changers.append(changer)
-            self.spinboxes[spec.name] = spinbox
-            QtCore.QObject.connect(spinbox, QtCore.SIGNAL(signal), changer)
-            pc.addWidget(spinbox)
-            self.param_units[spec.name] = spec.unit
+                pc.addWidget(QtGui.QLabel(spec, self))
         # load params
         self.get_saved_parameters()
         # initial plot
@@ -295,7 +298,7 @@ class ExplorableModel(object):
     explorer_type = None
     #: list of strings, passed to plot_data
     plot_styles = None
-    #: list of ``Parameter`` objects
+    #: list of ``Parameter`` objects, or text for display purposes only
     param_specs = None
     
     def get_data(self, **params):
