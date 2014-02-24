@@ -73,7 +73,7 @@ class Parameter(object):
     The unit and dtype parameters are guessed. Changing the unit parameter is only useful for ensuring that the
     display unit is specific, as the dimensions will be guessed automatically. 
     '''
-    def __init__(self, name, start, min, max, step, unit=None, dtype=None):
+    def __init__(self, name, start, min, max, step, unit=None, dtype=None, description=None):
         if dtype is None:
             if isinstance(start, int) and isinstance(min, int) and isinstance(max, int) and isinstance(step, int):
                 dtype = int
@@ -89,6 +89,9 @@ class Parameter(object):
         self.step = step
         self.unit = unit
         self.dtype = dtype
+        if description is None:
+            description = name
+        self.description = description
 
 
 class ModelExplorerInterruptError(RuntimeError):
@@ -158,6 +161,7 @@ class ModelExplorer(QtGui.QMainWindow):
                 spinbox.setMaximum(spec.max/spec.unit)
                 spinbox.setValue(spec.start/spec.unit)
                 spinbox.setSingleStep(spec.step/spec.unit)
+                spinbox.setToolTip(spec.description)
                 changer = SpinboxChanger(self, spec.name)
                 self.spinbox_changers.append(changer)
                 self.spinboxes[spec.name] = spinbox

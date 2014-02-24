@@ -68,23 +68,44 @@ class AdExModel(ExplorableModel):
     plot_styles = ['standard']
     param_specs = [
         'Time constants',
-        Parameter('taum', 1*ms, 0.1*ms, 100*ms, 1*ms, unit=ms),
-        Parameter('tauw', 10*ms, 0.1*ms, 100*ms, 1*ms, unit=ms),
+        
+        Parameter('taum', 1*ms, 0.1*ms, 100*ms, 1*ms, unit=ms,
+                  description='Membrane time constant'),
+        Parameter('tauw', 10*ms, 0.1*ms, 100*ms, 1*ms, unit=ms,
+                  description='Adaptation time constant'),
+        
         'Adaptation',
-        Parameter('a', 1.0, 0.0, 100.0, 0.1),
-        Parameter('b', 20*mV, 0*mV, 1000*mV, 10*mV, unit=mV),
+        
+        Parameter('a', 1.0, 0.0, 100.0, 0.1,
+                  description='Subthreshold adaptation constant'),
+        Parameter('b', 20*mV, 0*mV, 1000*mV, 10*mV, unit=mV,
+                  description='Spike-triggered adaptation constant'),
+        
         'Electrical',
-        Parameter('EL', -70*mV, -100*mV, 0*mV, 5*mV, unit=mV),
-        Parameter('VT', -50*mV, -100*mV, 0*mV, 5*mV, unit=mV),
-        Parameter('Vr', -70*mV, -100*mV, 0*mV, 5*mV, unit=mV),
-        Parameter('DeltaT', 0*mV, 0*mV, 10*mV, 0.5*mV, unit=mV),
+        
+        Parameter('EL', -70*mV, -100*mV, 0*mV, 5*mV, unit=mV,
+                  description='Rest potential'),
+        Parameter('VT', -50*mV, -100*mV, 0*mV, 5*mV, unit=mV,
+                  description='Threshold potential'),
+        Parameter('Vr', -70*mV, -100*mV, 0*mV, 5*mV, unit=mV,
+                  description='Reset potential'),
+        Parameter('DeltaT', 0*mV, 0*mV, 10*mV, 0.5*mV, unit=mV,
+                  description='Spike sharpness (0=LIF)'),
+        
         'Simulation',
-        Parameter('duration', 500*ms, 0*ms, 10*second, 100*ms, unit=ms),
-        Parameter('silent', 100*ms, 0*ms, 10*second, 100*ms, unit=ms),
-        Parameter('Imin', 0*mV, 0*mV, 1000*mV, 10*mV, unit=mV),
-        Parameter('Imax', 100*mV, 0*mV, 1000*mV, 10*mV, unit=mV),
-        Parameter('N', 100, 1, 1000, 10),
-        Parameter('repeats', 1, 1, 100, 5),
+        
+        Parameter('duration', 500*ms, 0*ms, 10*second, 100*ms, unit=ms,
+                  description='Duration of stimulus'),
+        Parameter('silent', 100*ms, 0*ms, 10*second, 100*ms, unit=ms,
+                  description='Silent period after stimulus off'),
+        Parameter('Imin', 0*mV, 0*mV, 1000*mV, 10*mV, unit=mV,
+                  description='Minimum input current'),
+        Parameter('Imax', 100*mV, 0*mV, 1000*mV, 10*mV, unit=mV,
+                  description='Maximum input current'),
+        Parameter('N', 100, 1, 1000, 10,
+                  description='Number of input current values'),
+        Parameter('repeats', 1, 1, 100, 5,
+                  description='Number of repeats of each input current'),
         ]
     
     def get_data(self, **params):
