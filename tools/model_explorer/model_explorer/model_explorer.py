@@ -156,6 +156,7 @@ class ModelExplorer(QtGui.QMainWindow):
         pc.setAlignment(QtCore.Qt.AlignTop)
         self.spinbox_changers = []
         self.spinboxes = {}
+        self.checkboxes = {}
         self.cur_params = {}
         self.param_units = {}
         self.default_values = {}
@@ -191,6 +192,7 @@ class ModelExplorer(QtGui.QMainWindow):
                 checkbox = QtGui.QCheckBox(spec.name, self)
                 checkbox.setToolTip(spec.description)
                 checkbox.setChecked(spec.start)
+                self.checkboxes[spec.name] = checkbox
                 changer = CheckboxChanger(self, spec.name)
                 signal = 'stateChanged(int)'
                 QtCore.QObject.connect(checkbox, QtCore.SIGNAL(signal), changer)
@@ -268,7 +270,7 @@ class ModelExplorer(QtGui.QMainWindow):
             params = str(params)
             newparams = self.model.load_params(params)
             keys_new = set(newparams.keys())
-            keys_true = set(self.param_units.keys())
+            keys_true = set(self.default_values.keys())
             missing_keys = keys_true-keys_new
             ignored_keys = keys_new-keys_true
             if ignored_keys:
@@ -288,7 +290,10 @@ class ModelExplorer(QtGui.QMainWindow):
             self.compute_data()
             self.modifying_form_data = True
             for param_name, val in self.cur_params.items():
-                self.spinboxes[param_name].setValue(val/self.param_units[param_name])
+                if param_name in self.param_units:
+                    self.spinboxes[param_name].setValue(val/self.param_units[param_name])
+                else:
+                    self.checkboxes[param_name].setChecked(val)
             self.modifying_form_data = False
         
     def param_changed(self, param_name, val):
