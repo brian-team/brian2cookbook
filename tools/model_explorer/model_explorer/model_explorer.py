@@ -98,9 +98,12 @@ class BooleanParameter(object):
     '''
     Used to specify a boolean parameter
     '''
-    def __init__(self, name, start):
+    def __init__(self, name, start, description=None):
         self.name = name
         self.start = start
+        if description is None:
+            description = name
+        self.description = description
 
 
 class ModelExplorerInterruptError(RuntimeError):
@@ -186,6 +189,7 @@ class ModelExplorer(QtGui.QMainWindow):
                 self.cur_params[spec.name] = spec.start
                 self.default_values[spec.name] = spec.start
                 checkbox = QtGui.QCheckBox(spec.name, self)
+                checkbox.setToolTip(spec.description)
                 checkbox.setChecked(spec.start)
                 changer = CheckboxChanger(self, spec.name)
                 signal = 'stateChanged(int)'
