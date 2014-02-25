@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'model_explorer_ui.ui'
 #
-# Created: Tue Feb 25 15:38:01 2014
+# Created: Tue Feb 25 17:17:10 2014
 #      by: PyQt4 UI code generator 4.9.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -123,7 +123,9 @@ class Ui_ModelExplorer(object):
         self.button_delete_params.setText(QtGui.QApplication.translate("ModelExplorer", "Delete", None, QtGui.QApplication.UnicodeUTF8))
         self.button_delete_all_params.setText(QtGui.QApplication.translate("ModelExplorer", "Delete all", None, QtGui.QApplication.UnicodeUTF8))
         self.dock_params.setWindowTitle(QtGui.QApplication.translate("ModelExplorer", "Parameters", None, QtGui.QApplication.UnicodeUTF8))
+        self.button_compute.setToolTip(QtGui.QApplication.translate("ModelExplorer", "Press F5 to recompute", None, QtGui.QApplication.UnicodeUTF8))
         self.button_compute.setText(QtGui.QApplication.translate("ModelExplorer", "Compute", None, QtGui.QApplication.UnicodeUTF8))
+        self.button_compute.setShortcut(QtGui.QApplication.translate("ModelExplorer", "F5", None, QtGui.QApplication.UnicodeUTF8))
         self.progress_bar.setFormat(QtGui.QApplication.translate("ModelExplorer", "%p%", None, QtGui.QApplication.UnicodeUTF8))
 
 from matplotlibwidget import MatplotlibWidget

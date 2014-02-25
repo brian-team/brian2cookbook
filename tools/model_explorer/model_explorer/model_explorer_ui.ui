@@ -148,8 +148,14 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="toolTip">
+          <string>Press F5 to recompute</string>
+         </property>
          <property name="text">
           <string>Compute</string>
+         </property>
+         <property name="shortcut">
+          <string>F5</string>
          </property>
         </widget>
        </item>
