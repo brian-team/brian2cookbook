@@ -29,7 +29,7 @@ from copy import copy
 from PyQt4 import QtCore, QtGui
 from model_explorer_ui import Ui_ModelExplorer
 
-__all__ = ['ExplorableModel', 'ModelExplorerInterruptError', 'Parameter']
+__all__ = ['ExplorableModel', 'ModelExplorerInterruptError', 'Parameter', 'BooleanParameter']
 
 def _get_best_unit(u):
     '''
@@ -92,6 +92,15 @@ class Parameter(object):
         if description is None:
             description = name
         self.description = description
+        
+
+class BooleanParameter(object):
+    '''
+    Used to specify a boolean parameter
+    '''
+    def __init__(self, name, start):
+        self.name = name
+        self.start = start
 
 
 class ModelExplorerInterruptError(RuntimeError):
@@ -111,6 +120,11 @@ class SpinboxChanger(object):
         
     def __call__(self, val):
         self.model_explorer.param_changed(self.param_name, val)
+
+        
+class CheckboxChanger(SpinboxChanger):
+    def __call__(self, val):
+        self.model_explorer.param_changed(self.param_name, bool(val))
 
 
 class ModelExplorer(QtGui.QMainWindow):
@@ -168,6 +182,15 @@ class ModelExplorer(QtGui.QMainWindow):
                 QtCore.QObject.connect(spinbox, QtCore.SIGNAL(signal), changer)
                 pc.addWidget(spinbox)
                 self.param_units[spec.name] = spec.unit
+            elif isinstance(spec, BooleanParameter):
+                self.cur_params[spec.name] = spec.start
+                self.default_values[spec.name] = spec.start
+                checkbox = QtGui.QCheckBox(spec.name, self)
+                checkbox.setChecked(spec.start)
+                changer = CheckboxChanger(self, spec.name)
+                signal = 'stateChanged(int)'
+                QtCore.QObject.connect(checkbox, QtCore.SIGNAL(signal), changer)
+                pc.addWidget(checkbox)
             else:
                 pc.addWidget(QtGui.QLabel(spec, self))
         # load params
@@ -269,7 +292,9 @@ class ModelExplorer(QtGui.QMainWindow):
             return
         self.ui.list_saved_params.selectionModel().clearSelection()
         QtGui.QApplication.processEvents()
-        self.cur_params[param_name] = val*self.param_units[param_name]
+        if param_name in self.param_units:
+            val = val*self.param_units[param_name]
+        self.cur_params[param_name] = val
         self.compute_data()
         
     def compute_data(self):

@@ -12,8 +12,6 @@ from brian2 import *
 from model_explorer import *
 import time
 
-slow_mode = False
-
 class SampleModel(ExplorableModel):
     explorer_type = 'sample_model_explorer'
     plot_styles = ['b', 'g', 'r']
@@ -21,9 +19,11 @@ class SampleModel(ExplorableModel):
                    Parameter('freq', 2*Hz, 1*Hz, 10*Hz, 1*Hz, unit=kHz),
                    Parameter('phase', 0, 0, 360, 15),
                    Parameter('fake', 0, 0, 100, 1),
+                   BooleanParameter('slow_mode', False),
                    ]
 
-    def get_data(self, freq, phase, n, fake=None):
+    def get_data(self, freq, phase, n, slow_mode, fake=None):
+        print slow_mode
         freq = float(freq)
         t = linspace(0, 1, 10000)
         if not slow_mode:
@@ -32,7 +32,7 @@ class SampleModel(ExplorableModel):
             y = zeros_like(t)
             for i in xrange(len(t)):
                 self.update(float(i)/len(t))
-                y[i] = sin(2*pi*freq*t[i]*second+phase*pi/180.)**n
+                y[i] = sin(2*pi*freq*t[i]+phase*pi/180.)**n
         return t, y
     
     def plot_data(self, fig, style, (t, y)):
