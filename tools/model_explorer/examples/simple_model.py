@@ -23,7 +23,6 @@ class SampleModel(ExplorableModel):
                    ]
 
     def get_data(self, freq, phase, n, slow_mode, fake=None):
-        print slow_mode
         freq = float(freq)
         t = linspace(0, 1, 10000)
         if not slow_mode:
