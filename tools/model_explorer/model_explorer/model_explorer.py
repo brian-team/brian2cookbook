@@ -131,12 +131,13 @@ class CheckboxChanger(SpinboxChanger):
 
 
 class ModelExplorer(QtGui.QMainWindow):
-    def __init__(self, parent=None, model=None):
+    def __init__(self, parent=None, model=None, auto_compute=True):
         # Do basic setup from Qt Designer
         QtGui.QWidget.__init__(self, parent)
         self.ui = Ui_ModelExplorer()
         self.ui.setupUi(self)
         #
+        self.auto_compute = auto_compute
         self.model = model
         self.model.set_model_explorer(self)
         self.curdata = None
@@ -201,6 +202,8 @@ class ModelExplorer(QtGui.QMainWindow):
                 pc.addWidget(QtGui.QLabel(spec, self))
         # load params
         self.get_saved_parameters()
+        if auto_compute:
+            self.ui.button_compute.hide()
         # initial plot
         self.modifying_form_data = False
         
@@ -212,7 +215,8 @@ class ModelExplorer(QtGui.QMainWindow):
         if hasattr(self, '_initial_compute'):
             return
         self._initial_compute = True
-        self.compute_data()
+        if self.auto_compute:
+            self.compute_data()
             
     def change_plot_style(self, style):
         self.cur_plot_style = str(style)
@@ -304,7 +308,8 @@ class ModelExplorer(QtGui.QMainWindow):
         if param_name in self.param_units:
             val = val*self.param_units[param_name]
         self.cur_params[param_name] = val
-        self.compute_data()
+        if self.auto_compute:
+            self.compute_data()
         
     def compute_data(self):
         data = self.model.compute(**self.cur_params.copy())
@@ -326,6 +331,9 @@ class ModelExplorer(QtGui.QMainWindow):
         if complete!=self.int_percent_complete:
             self.int_percent_complete = complete
             self.ui.progress_bar.setValue(complete)
+            
+    def compute(self):
+        self.compute_data()
     
 
 class ExplorableModel(object):
@@ -411,15 +419,15 @@ class ExplorableModel(object):
         if self.interrupted:
             raise ModelExplorerInterruptError
 
-    def launch_gui(self):
-        model_explorer(self)
+    def launch_gui(self, auto_compute=True):
+        model_explorer(self, auto_compute=auto_compute)
         
     def set_model_explorer(self, model_explorer):
         self.model_explorer = model_explorer    
 
     
-def model_explorer(model):
+def model_explorer(model, auto_compute=True):
     app = QtGui.QApplication(sys.argv)
-    myapp = ModelExplorer(model=model)
+    myapp = ModelExplorer(model=model, auto_compute=auto_compute)
     myapp.show()
     sys.exit(app.exec_())

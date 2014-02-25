@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'model_explorer_ui.ui'
 #
-# Created: Tue Feb 04 19:36:34 2014
+# Created: Tue Feb 25 15:38:01 2014
 #      by: PyQt4 UI code generator 4.9.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -62,7 +62,7 @@ class Ui_ModelExplorer(object):
         self.dock_saved_params.setWidget(self.dockWidgetContents_3)
         ModelExplorer.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.dock_saved_params)
         self.dock_params = QtGui.QDockWidget(ModelExplorer)
-        self.dock_params.setMinimumSize(QtCore.QSize(200, 200))
+        self.dock_params.setMinimumSize(QtCore.QSize(263, 200))
         self.dock_params.setFeatures(QtGui.QDockWidget.DockWidgetFloatable|QtGui.QDockWidget.DockWidgetMovable)
         self.dock_params.setObjectName(_fromUtf8("dock_params"))
         self.dockWidgetContents_4 = QtGui.QWidget()
@@ -74,7 +74,7 @@ class Ui_ModelExplorer(object):
         self.scroll_area_params.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.scroll_area_params.setObjectName(_fromUtf8("scroll_area_params"))
         self.scroll_area_params_contents = QtGui.QWidget()
-        self.scroll_area_params_contents.setGeometry(QtCore.QRect(0, 0, 254, 323))
+        self.scroll_area_params_contents.setGeometry(QtCore.QRect(0, 0, 254, 295))
         self.scroll_area_params_contents.setObjectName(_fromUtf8("scroll_area_params_contents"))
         self.verticalLayout_3 = QtGui.QVBoxLayout(self.scroll_area_params_contents)
         self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
@@ -90,6 +90,14 @@ class Ui_ModelExplorer(object):
         self.combobox_plot_style.setSizePolicy(sizePolicy)
         self.combobox_plot_style.setObjectName(_fromUtf8("combobox_plot_style"))
         self.horizontalLayout.addWidget(self.combobox_plot_style)
+        self.button_compute = QtGui.QPushButton(self.dockWidgetContents_4)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.button_compute.sizePolicy().hasHeightForWidth())
+        self.button_compute.setSizePolicy(sizePolicy)
+        self.button_compute.setObjectName(_fromUtf8("button_compute"))
+        self.horizontalLayout.addWidget(self.button_compute)
         self.progress_bar = QtGui.QProgressBar(self.dockWidgetContents_4)
         self.progress_bar.setProperty("value", 0)
         self.progress_bar.setTextVisible(False)
@@ -105,6 +113,7 @@ class Ui_ModelExplorer(object):
         QtCore.QObject.connect(self.list_saved_params, QtCore.SIGNAL(_fromUtf8("itemClicked(QListWidgetItem*)")), ModelExplorer.clicked_saved_parameters)
         QtCore.QObject.connect(self.button_delete_params, QtCore.SIGNAL(_fromUtf8("clicked()")), ModelExplorer.delete_parameters)
         QtCore.QObject.connect(self.button_delete_all_params, QtCore.SIGNAL(_fromUtf8("clicked()")), ModelExplorer.delete_all_parameters)
+        QtCore.QObject.connect(self.button_compute, QtCore.SIGNAL(_fromUtf8("clicked()")), ModelExplorer.compute)
         QtCore.QMetaObject.connectSlotsByName(ModelExplorer)
 
     def retranslateUi(self, ModelExplorer):
@@ -114,6 +123,7 @@ class Ui_ModelExplorer(object):
         self.button_delete_params.setText(QtGui.QApplication.translate("ModelExplorer", "Delete", None, QtGui.QApplication.UnicodeUTF8))
         self.button_delete_all_params.setText(QtGui.QApplication.translate("ModelExplorer", "Delete all", None, QtGui.QApplication.UnicodeUTF8))
         self.dock_params.setWindowTitle(QtGui.QApplication.translate("ModelExplorer", "Parameters", None, QtGui.QApplication.UnicodeUTF8))
+        self.button_compute.setText(QtGui.QApplication.translate("ModelExplorer", "Compute", None, QtGui.QApplication.UnicodeUTF8))
         self.progress_bar.setFormat(QtGui.QApplication.translate("ModelExplorer", "%p%", None, QtGui.QApplication.UnicodeUTF8))
 
 from matplotlibwidget import MatplotlibWidget

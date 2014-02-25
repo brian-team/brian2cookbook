@@ -16,7 +16,7 @@ class SampleModel(ExplorableModel):
     explorer_type = 'sample_model_explorer'
     plot_styles = ['b', 'g', 'r']
     param_specs = [Parameter('n', 1, 1, 10, 1),
-                   Parameter('freq', 2*Hz, 1*Hz, 10*Hz, 1*Hz, unit=kHz),
+                   Parameter('freq', 2*Hz, 1*Hz, 10*Hz, 1*Hz, unit=Hz),
                    Parameter('phase', 0, 0, 360, 15),
                    Parameter('fake', 0, 0, 100, 1),
                    BooleanParameter('slow_mode', False),
@@ -40,5 +40,4 @@ class SampleModel(ExplorableModel):
         ax.plot(t, y, c=style)
 
 if __name__=='__main__':
-    SampleModel().launch_gui()
-    
+    SampleModel().launch_gui(auto_compute=True)

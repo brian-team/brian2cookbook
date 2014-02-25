@@ -92,7 +92,7 @@
   <widget class="QDockWidget" name="dock_params">
    <property name="minimumSize">
     <size>
-     <width>200</width>
+     <width>263</width>
      <height>200</height>
     </size>
    </property>
@@ -121,7 +121,7 @@
           <x>0</x>
           <y>0</y>
           <width>254</width>
-          <height>323</height>
+          <height>295</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -137,6 +137,19 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="button_compute">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Compute</string>
          </property>
         </widget>
        </item>
@@ -175,8 +188,8 @@
    <slot>change_plot_style(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>78</x>
-     <y>865</y>
+     <x>79</x>
+     <y>864</y>
     </hint>
     <hint type="destinationlabel">
      <x>422</x>
@@ -191,8 +204,8 @@
    <slot>save_parameters()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>52</x>
-     <y>468</y>
+     <x>53</x>
+     <y>494</y>
     </hint>
     <hint type="destinationlabel">
      <x>375</x>
@@ -223,8 +236,8 @@
    <slot>delete_parameters()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>153</x>
-     <y>460</y>
+     <x>176</x>
+     <y>494</y>
     </hint>
     <hint type="destinationlabel">
      <x>572</x>
@@ -239,12 +252,28 @@
    <slot>delete_all_parameters()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>237</x>
-     <y>452</y>
+     <x>263</x>
+     <y>494</y>
     </hint>
     <hint type="destinationlabel">
      <x>721</x>
      <y>25</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>button_compute</sender>
+   <signal>clicked()</signal>
+   <receiver>ModelExplorer</receiver>
+   <slot>compute()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>149</x>
+     <y>864</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>281</x>
+     <y>624</y>
     </hint>
    </hints>
   </connection>
@@ -256,5 +285,6 @@
   <slot>clicked_saved_parameters(QListWidgetItem*)</slot>
   <slot>delete_parameters()</slot>
   <slot>delete_all_parameters()</slot>
+  <slot>compute()</slot>
  </slots>
 </ui>
