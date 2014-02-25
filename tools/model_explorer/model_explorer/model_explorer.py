@@ -291,7 +291,8 @@ class ModelExplorer(QtGui.QMainWindow):
                 for k in missing_keys:
                     newparams[k] = self.default_values[k]
             self.cur_params = newparams
-            self.compute_data()
+            if self.auto_compute:
+                self.compute_data()
             self.modifying_form_data = True
             for param_name, val in self.cur_params.items():
                 if param_name in self.param_units:
