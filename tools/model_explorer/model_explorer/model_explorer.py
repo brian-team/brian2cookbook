@@ -128,6 +128,14 @@ class SpinboxChanger(object):
 class CheckboxChanger(SpinboxChanger):
     def __call__(self, val):
         self.model_explorer.param_changed(self.param_name, bool(val))
+        
+        
+class PageSwitcher(object):
+    def __init__(self):
+        self.items = []
+    def __call__(self):
+        for item in self.items:
+            item.setVisible(not item.isVisible())
 
 
 class ModelExplorer(QtGui.QMainWindow):
@@ -161,6 +169,8 @@ class ModelExplorer(QtGui.QMainWindow):
         self.cur_params = {}
         self.param_units = {}
         self.default_values = {}
+        self.param_pages = []
+        current_param_page = []
         for spec in self.model.param_specs:
             if isinstance(spec, Parameter):
                 self.cur_params[spec.name] = spec.start
@@ -187,6 +197,7 @@ class ModelExplorer(QtGui.QMainWindow):
                 QtCore.QObject.connect(spinbox, QtCore.SIGNAL(signal), changer)
                 pc.addWidget(spinbox)
                 self.param_units[spec.name] = spec.unit
+                current_param_page.append(spinbox)
             elif isinstance(spec, BooleanParameter):
                 self.cur_params[spec.name] = spec.start
                 self.default_values[spec.name] = spec.start
@@ -198,8 +209,14 @@ class ModelExplorer(QtGui.QMainWindow):
                 signal = 'stateChanged(int)'
                 QtCore.QObject.connect(checkbox, QtCore.SIGNAL(signal), changer)
                 pc.addWidget(checkbox)
+                current_param_page.append(checkbox)
             else:
-                pc.addWidget(QtGui.QLabel(spec, self))
+                switcher = PageSwitcher()
+                current_param_page = switcher.items
+                button = QtGui.QPushButton(spec, self)
+                button.setFlat(True)
+                QtCore.QObject.connect(button, QtCore.SIGNAL('clicked()'), switcher)
+                pc.addWidget(button)
         # load params
         self.get_saved_parameters()
         if auto_compute:
