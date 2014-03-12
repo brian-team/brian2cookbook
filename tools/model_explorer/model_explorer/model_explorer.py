@@ -392,7 +392,7 @@ class ExplorableModel(object):
     @staticmethod
     def load_params_from(explorer_type, name):
         basedir = os.path.expanduser('~/.brian2cookbook/tools/model_explorer/'+explorer_type)
-        return pickle.load(open(os.path.join(self.basedir, name), 'rb'))
+        return pickle.load(open(os.path.join(basedir, name), 'rb'))
         
     def params_exist(self, name):
         if os.path.exists(os.path.join(self.basedir, name)):
