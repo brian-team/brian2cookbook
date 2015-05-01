@@ -1,3 +1,24 @@
-/.project
-/.pydevproject
-*.pyc
+# Compiled Python files
+*.py[cod]
+
+# Backup files
+*~
+*.bak
+
+# C extensions
+*.so
+
+# generated directories
+dist
+build
+
+# Eclipse project files and settings
+.project
+.pydevproject
+/.settings
+
+# pycharm project files
+.idea
+
+# IPython
+.ipynb_checkpoints
